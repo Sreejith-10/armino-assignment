@@ -1,10 +1,28 @@
+import {gql, useQuery} from "@apollo/client";
 import WeatherChart from "./components/weather-chart";
 import WeatherMenu from "./components/weather-menu";
 
+const GET_WEATHER = gql`
+	query GetWeather($city: String!) {
+		weather(city: $city) {
+			city
+			temperature
+			description
+		}
+	}
+`;
+
 const App = () => {
+	const {data, error} = useQuery(GET_WEATHER, {
+		variables: {city: "Delhi"},
+	});
+
+	console.log(error);
+	console.log(data);
+
 	return (
 		<div className="w-full h-dvh">
-			<div className="w-full h-full px-20 py-32 flex gap-10">
+			<div className="w-full h-full px-20 py-32 flex sm:flex-col gap-10">
 				<div className="w-[40%] h-full">
 					<WeatherMenu />
 				</div>
